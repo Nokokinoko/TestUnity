@@ -10,6 +10,7 @@ public class MyModelAnimationController : MonoBehaviour
   private readonly string PRM_TO_IDLE = "toIdle";
   private readonly string PRM_TO_WALK = "toWalk";
   private readonly string PRM_TO_RUN = "toRun";
+  private readonly string PRM_TO_BACK = "toBack";
   private readonly string PRM_TO_JUMP = "toJump";
   private readonly string PRM_TO_FALL = "toFall";
   private readonly string PRM_TO_LAND = "toLand";
@@ -53,6 +54,9 @@ public class MyModelAnimationController : MonoBehaviour
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_RUN:
         _Parameter = PRM_TO_RUN;
+        break;
+      case Constant.ENUM_STATE_ANIME.STATE_ANIME_BACK:
+        _Parameter = PRM_TO_BACK;
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
         _Parameter = PRM_TO_JUMP;

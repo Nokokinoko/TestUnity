@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-  private Transform m_CameraTransform;
+  private Transform m_TransformCamera;
 
+  private readonly float INITIAL_THETA = 0.0f;
+  private readonly float INITIAL_PHI = 30.0f;
   private readonly float MIN_PHI = 0.0f;
   private readonly float MAX_PHI = 60.0f;
 
   public Transform m_TransformTarget;
   public float m_Radius = 5.0f;
-  public float m_Theta = 0.0f;
-  public float m_Phi = 30.0f;
+  public float m_Theta;
+  public float m_Phi;
   public float m_SpeedInput = 5.0f;
 
   private void Start()
   {
-    m_CameraTransform = Camera.main.transform;
+    m_TransformCamera = Camera.main.transform;
+    SetPositionReset();
+  }
+
+  public void SetPositionReset()
+  {
+    m_Theta = INITIAL_THETA;
+    m_Phi = INITIAL_PHI;
     SetPositionByTrackPlayer(); // is default position
   }
 
@@ -29,10 +38,10 @@ public class CameraManager : MonoBehaviour
       m_Radius * Mathf.Sin(m_Phi * Mathf.Deg2Rad),
       m_Radius * Mathf.Cos(m_Phi * Mathf.Deg2Rad) * Mathf.Cos(m_Theta * Mathf.Deg2Rad)
     );
-    m_CameraTransform.position = _Position + m_TransformTarget.position;
+    m_TransformCamera.position = _Position + m_TransformTarget.position;
 
     // look at target
-    m_CameraTransform.LookAt(m_TransformTarget);
+    m_TransformCamera.LookAt(m_TransformTarget);
   }
 
   // Playerを中心とした球体座標上のカメラ移動

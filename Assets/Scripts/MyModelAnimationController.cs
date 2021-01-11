@@ -5,18 +5,18 @@ using UnityEngine;
 public class MyModelAnimationController : MonoBehaviour
 {
   private readonly short ID_BASE_LAYER = 0;
-  private readonly string ANIME_FALL = "Fall";
+  private readonly string ANIME_IDLE = "Idle";
 
   private readonly string PRM_TO_IDLE = "toIdle";
   private readonly string PRM_TO_WALK = "toWalk";
   private readonly string PRM_TO_RUN = "toRun";
-  private readonly string PRM_TO_BACK = "toBack";
   private readonly string PRM_TO_JUMP = "toJump";
   private readonly string PRM_TO_FALL = "toFall";
   private readonly string PRM_TO_LAND = "toLand";
 
   private Animator m_Animator;
-  private Constant.ENUM_STATE_ANIME m_StateAnime;
+  [ReadOnly]
+  public Constant.ENUM_STATE_ANIME m_StateAnime;
 
   private void Start()
   {
@@ -26,12 +26,12 @@ public class MyModelAnimationController : MonoBehaviour
 
   private void Update()
   {
-    if(m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP)
+    if (m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND)
     {
-      if(m_Animator.GetCurrentAnimatorStateInfo(ID_BASE_LAYER).IsName(ANIME_FALL))
+      if (m_Animator.GetCurrentAnimatorStateInfo(ID_BASE_LAYER).IsName(ANIME_IDLE))
       {
-        // Jump -> Fall
-        m_StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL;
+        // land to idle
+        m_StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_IDLE;
       }
     }
   }
@@ -55,9 +55,6 @@ public class MyModelAnimationController : MonoBehaviour
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_RUN:
         _Parameter = PRM_TO_RUN;
         break;
-      case Constant.ENUM_STATE_ANIME.STATE_ANIME_BACK:
-        _Parameter = PRM_TO_BACK;
-        break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
         _Parameter = PRM_TO_JUMP;
         break;
@@ -70,5 +67,10 @@ public class MyModelAnimationController : MonoBehaviour
     }
     m_Animator.SetTrigger(_Parameter);
     m_StateAnime = p_StateAnime;
+  }
+
+  public bool IsFall()
+  {
+    return m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL;
   }
 }

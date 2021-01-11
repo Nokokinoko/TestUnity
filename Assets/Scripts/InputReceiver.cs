@@ -12,6 +12,8 @@ public class InputReceiver : MonoBehaviour
   public bool m_Jump = false;
   [ReadOnly]
   public Vector2 m_Camera = Vector2.zero;
+  [ReadOnly]
+  public bool m_ResetCamera = false;
 
   private void Update()
   {
@@ -46,7 +48,7 @@ public class InputReceiver : MonoBehaviour
     m_Jump = false;
     if (Input.GetKey(KeyCode.Space))
     {
-      m_Run = true;
+      m_Jump = true;
     }
 
     // camera
@@ -54,6 +56,12 @@ public class InputReceiver : MonoBehaviour
     _Camera.x = Input.GetAxis("Mouse X");
     _Camera.y = Input.GetAxis("Mouse Y");
     m_Camera = _Camera;
+
+    m_ResetCamera = false;
+    if (Input.GetMouseButton(1))
+    {
+      m_ResetCamera = true;
+    }
   }
 
   public bool HasInputMove()

@@ -470,7 +470,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7022672e4c3764d6abaead1ad237c27e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -679,6 +679,7 @@ MonoBehaviour:
   m_Run: 0
   m_Jump: 0
   m_Camera: {x: 0, y: 0}
+  m_ResetCamera: 0
 --- !u!114 &1923864459
 MonoBehaviour:
   m_ObjectHideFlags: 0

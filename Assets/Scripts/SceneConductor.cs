@@ -7,13 +7,18 @@ using UnityEngine;
 public class SceneConductor : MonoBehaviour
 {
   private InputReceiver m_InputReceiver;
+
   private MyModelInputController m_ModelInputCtrl;
+
+  private Transform m_TransformCamera;
   private CameraManager m_CameraMgr;
 
   private void Start()
   {
     m_InputReceiver = GetComponent<InputReceiver>();
     m_CameraMgr = GetComponent<CameraManager>();
+
+    m_TransformCamera = Camera.main.transform;
 
     GameObject _Model = GameObject.Find("MyModel");
     if(_Model == null)
@@ -34,19 +39,28 @@ public class SceneConductor : MonoBehaviour
   {
     // for model
     bool _UpdatePosition = false;
-    if(m_InputReceiver.HasInputMove())
+    if(m_InputReceiver.HasInputMove() || m_InputReceiver.m_Jump)
     {
-      m_ModelInputCtrl.Move(m_InputReceiver.m_Move, m_InputReceiver.m_Run);
-      _UpdatePosition = true;
-    }
-    if(m_InputReceiver.m_Jump)
-    {
-      m_ModelInputCtrl.Jump();
+      if(m_InputReceiver.HasInputMove())
+      {
+        m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, m_TransformCamera.position);
+      }
+      m_ModelInputCtrl.Move(m_InputReceiver.m_Move, m_InputReceiver.m_Run, m_InputReceiver.m_Jump);
       _UpdatePosition = true;
     }
 
+    if( ! m_InputReceiver.HasInputMove() && ! m_InputReceiver.m_Jump)
+    {
+      m_ModelInputCtrl.Idle();
+    }
+
     // for camera
-    if(m_InputReceiver.HasInputCamera())
+    if(m_InputReceiver.m_ResetCamera)
+    {
+      m_CameraMgr.SetPositionReset();
+      _UpdatePosition = false; // SetPositionResetで更新するので不要
+    }
+    else if(m_InputReceiver.HasInputCamera())
     {
       m_CameraMgr.SetPositionByMoveCamera(m_InputReceiver.m_Camera);
       _UpdatePosition = false; // SetPositionByMoveCameraで更新するので不要

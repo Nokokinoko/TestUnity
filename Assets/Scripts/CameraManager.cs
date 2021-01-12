@@ -8,7 +8,7 @@ public class CameraManager : MonoBehaviour
 
   private readonly float INITIAL_THETA = 0.0f;
   private readonly float INITIAL_PHI = 30.0f;
-  private readonly float MIN_PHI = 0.0f;
+  private readonly float MIN_PHI = 10.0f;
   private readonly float MAX_PHI = 60.0f;
 
   public Transform m_TransformTarget;
@@ -54,7 +54,7 @@ public class CameraManager : MonoBehaviour
     m_Theta = _Theta;
 
     // calc phi
-    float _Phi = m_Phi + (p_InputXY.y * m_SpeedInput);
+    float _Phi = m_Phi + (-p_InputXY.y * m_SpeedInput);
     if(_Phi < MIN_PHI) { _Phi = MIN_PHI; }
     if(MAX_PHI < _Phi) { _Phi = MAX_PHI; }
     m_Phi = _Phi;

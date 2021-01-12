@@ -43,9 +43,9 @@ public class SceneConductor : MonoBehaviour
     {
       if(m_InputReceiver.HasInputMove())
       {
-        m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, m_TransformCamera.position);
+        m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, m_TransformCamera.forward);
       }
-      m_ModelInputCtrl.Move(m_InputReceiver.m_Move, m_InputReceiver.m_Run, m_InputReceiver.m_Jump);
+      m_ModelInputCtrl.Move(m_InputReceiver.m_Move, m_InputReceiver.m_Run, m_InputReceiver.m_Jump, m_TransformCamera);
       _UpdatePosition = true;
     }
 

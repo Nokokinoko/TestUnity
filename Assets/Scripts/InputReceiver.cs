@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class InputReceiver : MonoBehaviour
 {
+  private readonly string INPUT_AXIS_MOUSE_X = "Mouse X";
+  private readonly string INPUT_AXIS_MOUSE_Y = "Mouse Y";
+  private readonly int INPUT_BUTTON_MOUSE_RIGHT = 1;
+
   [ReadOnly]
   public Vector2 m_Move = Vector2.zero;
   [ReadOnly]
@@ -53,12 +57,12 @@ public class InputReceiver : MonoBehaviour
 
     // camera
     Vector2 _Camera = Vector2.zero;
-    _Camera.x = Input.GetAxis("Mouse X");
-    _Camera.y = Input.GetAxis("Mouse Y");
+    _Camera.x = Input.GetAxis(INPUT_AXIS_MOUSE_X);
+    _Camera.y = Input.GetAxis(INPUT_AXIS_MOUSE_Y);
     m_Camera = _Camera;
 
     m_ResetCamera = false;
-    if (Input.GetMouseButton(1))
+    if (Input.GetMouseButton(INPUT_BUTTON_MOUSE_RIGHT))
     {
       m_ResetCamera = true;
     }

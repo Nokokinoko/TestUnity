@@ -31,7 +31,7 @@ public class MyModelInputController : MonoBehaviour
 
   private void Update()
   {
-    if(m_Gravity < 0.0f)
+    if (m_Gravity < 0.0f)
     {
       m_Gravity = 0.0f;
     }
@@ -39,16 +39,16 @@ public class MyModelInputController : MonoBehaviour
     m_CharCtrl.Move(new Vector3(0.0f, m_Gravity) * Time.deltaTime);
 
     float _Y = m_Transform.position.y;
-    if(0.01f < (m_LastY - _Y) && ! m_ModelAnimationCtrl.IsFall())
+    if (0.01f < (m_LastY - _Y) && !m_ModelAnimationCtrl.IsFall())
     {
       // fall
       m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL);
     }
     m_LastY = _Y;
 
-    if(m_CharCtrl.isGrounded)
+    if (m_CharCtrl.isGrounded)
     {
-      if(m_ModelAnimationCtrl.IsFall())
+      if (m_ModelAnimationCtrl.IsFall())
       {
         // land
         m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND);
@@ -58,7 +58,7 @@ public class MyModelInputController : MonoBehaviour
 
   public void Idle()
   {
-    switch(m_ModelAnimationCtrl.m_StateAnime)
+    switch (m_ModelAnimationCtrl.m_StateAnime)
     {
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
@@ -73,7 +73,7 @@ public class MyModelInputController : MonoBehaviour
 
   public void Rotate(Vector2 p_Move, Vector3 p_ForwardCamera)
   {
-    if(m_ModelAnimationCtrl.m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND)
+    if (m_ModelAnimationCtrl.m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND)
     {
       // can not rotate
       return;
@@ -96,9 +96,9 @@ public class MyModelInputController : MonoBehaviour
     Constant.ENUM_STATE_ANIME _StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_WALK;
 
     // move
-    if(p_Move != Vector2.zero)
+    if (p_Move != Vector2.zero)
     {
-      if(m_ModelAnimationCtrl.m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND)
+      if (m_ModelAnimationCtrl.m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND)
       {
         // can not move
       }
@@ -107,9 +107,9 @@ public class MyModelInputController : MonoBehaviour
         _DoAnime = true;
         float _X = p_Move.x * SPEED_MOVE;
         float _Y = p_Move.y * SPEED_MOVE;
-        if(p_Run)
+        if (p_Run)
         {
-          if(m_ModelAnimationCtrl.IsRunning())
+          if (m_ModelAnimationCtrl.IsRunning())
           {
             // transition completed
             _X *= RATIO_RUN;
@@ -124,9 +124,9 @@ public class MyModelInputController : MonoBehaviour
     }
 
     // jump
-    if(p_Jump)
+    if (p_Jump)
     {
-      switch(m_ModelAnimationCtrl.m_StateAnime)
+      switch (m_ModelAnimationCtrl.m_StateAnime)
       {
         case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
         case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
@@ -141,7 +141,7 @@ public class MyModelInputController : MonoBehaviour
       }
     }
 
-    if(_DoAnime)
+    if (_DoAnime)
     {
       m_CharCtrl.Move(_Direction * Time.deltaTime);
       m_ModelAnimationCtrl.Animation(_StateAnime);

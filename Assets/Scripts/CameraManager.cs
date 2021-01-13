@@ -55,8 +55,8 @@ public class CameraManager : MonoBehaviour
 
     // calc phi
     float _Phi = m_Phi + (-p_InputXY.y * m_SpeedInput);
-    if(_Phi < MIN_PHI) { _Phi = MIN_PHI; }
-    if(MAX_PHI < _Phi) { _Phi = MAX_PHI; }
+    if (_Phi < MIN_PHI) { _Phi = MIN_PHI; }
+    if (MAX_PHI < _Phi) { _Phi = MAX_PHI; }
     m_Phi = _Phi;
 
     SetPositionByTrackPlayer();

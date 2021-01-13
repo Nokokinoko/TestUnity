@@ -38,12 +38,12 @@ public class MyModelAnimationController : MonoBehaviour
 
   public void Animation(Constant.ENUM_STATE_ANIME p_StateAnime)
   {
-    if(m_StateAnime == p_StateAnime)
+    if (m_StateAnime == p_StateAnime)
     {
       return;
     }
 
-    switch(p_StateAnime)
+    switch (p_StateAnime)
     {
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_IDLE:
         m_Animator.SetBool(PRM_TO_WALK, false);
@@ -83,7 +83,7 @@ public class MyModelAnimationController : MonoBehaviour
 
   public bool IsAir()
   {
-    switch(m_StateAnime)
+    switch (m_StateAnime)
     {
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:

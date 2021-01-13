@@ -13,7 +13,7 @@ public class MyModelInputController : MonoBehaviour
 
   private readonly float SPEED_ROTATE = 10.0f;
   private readonly float SPEED_MOVE = 6.0f;
-  private readonly float SPEED_MOVE_AIR = 0.5f;
+  private readonly float RATIO_MOVE_AIR = 0.5f;
   private readonly float RATIO_RUN = 1.5f;
   private readonly float SPEED_JUMP = 8.0f;
 
@@ -46,28 +46,18 @@ public class MyModelInputController : MonoBehaviour
     }
     m_LastY = _Y;
 
-    if (m_CharCtrl.isGrounded)
+    if (m_ModelAnimationCtrl.IsFall() && m_CharCtrl.isGrounded)
     {
-      if (m_ModelAnimationCtrl.IsFall())
-      {
-        // land
-        m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND);
-      }
+      // land
+      m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND);
     }
   }
 
   public void Idle()
   {
-    switch (m_ModelAnimationCtrl.m_StateAnime)
+    if (!IsAir())
     {
-      case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
-      case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
-      case Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND:
-        // can not idle
-        return;
-      default:
-        m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_IDLE);
-        break;
+      m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_IDLE);
     }
   }
 
@@ -91,7 +81,6 @@ public class MyModelInputController : MonoBehaviour
 
   public void Move(Vector2 p_Move, bool p_Run, bool p_Jump, Transform p_TransformCamera)
   {
-    Vector3 _Direction = Vector3.zero;
     bool _DoAnime = false;
     Constant.ENUM_STATE_ANIME _StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_WALK;
 
@@ -107,7 +96,15 @@ public class MyModelInputController : MonoBehaviour
         _DoAnime = true;
         float _X = p_Move.x * SPEED_MOVE;
         float _Y = p_Move.y * SPEED_MOVE;
-        if (p_Run)
+
+        if (IsAir())
+        {
+          // jump, fall, land
+          _DoAnime = false;
+          _X *= RATIO_MOVE_AIR;
+          _Y *= RATIO_MOVE_AIR;
+        }
+        else if (p_Run)
         {
           if (m_ModelAnimationCtrl.IsRunning())
           {
@@ -119,31 +116,24 @@ public class MyModelInputController : MonoBehaviour
         }
 
         Vector3 _ForwardCamera = Vector3.Scale(p_TransformCamera.forward, new Vector3(1.0f, 0.0f, 1.0f)).normalized;
-        _Direction = _ForwardCamera * _Y + p_TransformCamera.right * _X;
+        Vector3 _Direction = _ForwardCamera * _Y + p_TransformCamera.right * _X;
+        m_CharCtrl.Move(_Direction * Time.deltaTime);
       }
     }
 
     // jump
     if (p_Jump)
     {
-      switch (m_ModelAnimationCtrl.m_StateAnime)
+      if (!IsAir())
       {
-        case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
-        case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
-        case Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND:
-          // can not jump
-          break;
-        default:
-          _DoAnime = true;
-          m_Gravity = SPEED_JUMP;
-          _StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP;
-          break;
+        _DoAnime = true;
+        m_Gravity = SPEED_JUMP;
+        _StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP;
       }
     }
 
     if (_DoAnime)
     {
-      m_CharCtrl.Move(_Direction * Time.deltaTime);
       m_ModelAnimationCtrl.Animation(_StateAnime);
     }
   }

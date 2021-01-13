@@ -10,9 +10,9 @@ public class MyModelAnimationController : MonoBehaviour
 
   private readonly string PRM_TO_WALK = "toWalk";
   private readonly string PRM_TO_RUN = "toRun";
-  private readonly string PRM_TRIGGER_JUMP = "triggerJump";
-  private readonly string PRM_TRIGGER_FALL = "triggerFall";
-  private readonly string PRM_TRIGGER_LAND = "triggerLand";
+  private readonly string PRM_TO_JUMP = "toJump";
+  private readonly string PRM_TO_FALL = "toFall";
+  private readonly string PRM_TO_LAND = "toLand";
 
   private Animator m_Animator;
   [ReadOnly]
@@ -43,34 +43,32 @@ public class MyModelAnimationController : MonoBehaviour
       return;
     }
 
+    foreach (AnimatorControllerParameter _Prm in m_Animator.parameters)
+    {
+      if (_Prm.type == AnimatorControllerParameterType.Bool)
+      {
+        m_Animator.SetBool(_Prm.name, false);
+      }
+    }
     switch (p_StateAnime)
     {
-      case Constant.ENUM_STATE_ANIME.STATE_ANIME_IDLE:
-        m_Animator.SetBool(PRM_TO_WALK, false);
-        m_Animator.SetBool(PRM_TO_RUN, false);
-        break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_WALK:
         m_Animator.SetBool(PRM_TO_WALK, true);
-        m_Animator.SetBool(PRM_TO_RUN, false);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_RUN:
         m_Animator.SetBool(PRM_TO_RUN, true);
-        m_Animator.SetBool(PRM_TO_WALK, false);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
-        m_Animator.SetTrigger(PRM_TRIGGER_JUMP);
-        m_Animator.SetBool(PRM_TO_WALK, false);
-        m_Animator.SetBool(PRM_TO_RUN, false);
+        m_Animator.SetBool(PRM_TO_JUMP, true);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
-        m_Animator.SetTrigger(PRM_TRIGGER_FALL);
-        m_Animator.SetBool(PRM_TO_WALK, false);
-        m_Animator.SetBool(PRM_TO_RUN, false);
+        m_Animator.SetBool(PRM_TO_FALL, true);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND:
-        m_Animator.SetTrigger(PRM_TRIGGER_LAND);
-        m_Animator.SetBool(PRM_TO_WALK, false);
-        m_Animator.SetBool(PRM_TO_RUN, false);
+        m_Animator.SetBool(PRM_TO_LAND, true);
+        break;
+      default:
+        // idle
         break;
     }
     m_StateAnime = p_StateAnime;

@@ -6,6 +6,7 @@ public class MyModelAnimationController : MonoBehaviour
 {
   private readonly short ID_BASE_LAYER = 0;
   private readonly string ANIME_IDLE = "Idle";
+  private readonly string ANIME_RUN = "Run";
 
   private readonly string PRM_TO_WALK = "toWalk";
   private readonly string PRM_TO_RUN = "toRun";
@@ -53,26 +54,45 @@ public class MyModelAnimationController : MonoBehaviour
         m_Animator.SetBool(PRM_TO_RUN, false);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_RUN:
-        m_Animator.SetBool(PRM_TO_WALK, false);
         m_Animator.SetBool(PRM_TO_RUN, true);
+        m_Animator.SetBool(PRM_TO_WALK, false);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
+        m_Animator.SetTrigger(PRM_TRIGGER_JUMP);
         m_Animator.SetBool(PRM_TO_WALK, false);
         m_Animator.SetBool(PRM_TO_RUN, false);
-        m_Animator.SetTrigger(PRM_TRIGGER_JUMP);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
+        m_Animator.SetTrigger(PRM_TRIGGER_FALL);
         m_Animator.SetBool(PRM_TO_WALK, false);
         m_Animator.SetBool(PRM_TO_RUN, false);
-        m_Animator.SetTrigger(PRM_TRIGGER_FALL);
         break;
       case Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND:
+        m_Animator.SetTrigger(PRM_TRIGGER_LAND);
         m_Animator.SetBool(PRM_TO_WALK, false);
         m_Animator.SetBool(PRM_TO_RUN, false);
-        m_Animator.SetTrigger(PRM_TRIGGER_LAND);
         break;
     }
     m_StateAnime = p_StateAnime;
+  }
+
+  public bool IsRunning()
+  {
+    return m_Animator.GetCurrentAnimatorStateInfo(ID_BASE_LAYER).IsName(ANIME_RUN);
+  }
+
+  public bool IsAir()
+  {
+    switch(m_StateAnime)
+    {
+      case Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP:
+      case Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL:
+      case Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND:
+        return true;
+      default:
+        break;
+    }
+    return false;
   }
 
   public bool IsFall()

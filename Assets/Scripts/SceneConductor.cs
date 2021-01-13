@@ -49,6 +49,12 @@ public class SceneConductor : MonoBehaviour
       _UpdatePosition = true;
     }
 
+    if(m_ModelInputCtrl.IsAir())
+    {
+      // jump, fall, land
+      _UpdatePosition = true;
+    }
+
     if( ! m_InputReceiver.HasInputMove() && ! m_InputReceiver.m_Jump)
     {
       m_ModelInputCtrl.Idle();
@@ -66,7 +72,7 @@ public class SceneConductor : MonoBehaviour
       _UpdatePosition = false; // SetPositionByMoveCameraで更新するので不要
     }
 
-    if (_UpdatePosition)
+    if(_UpdatePosition)
     {
       m_CameraMgr.SetPositionByTrackPlayer();
     }

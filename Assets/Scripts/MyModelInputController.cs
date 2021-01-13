@@ -13,9 +13,11 @@ public class MyModelInputController : MonoBehaviour
 
   private readonly float SPEED_ROTATE = 10.0f;
   private readonly float SPEED_MOVE = 6.0f;
+  private readonly float SPEED_MOVE_AIR = 0.5f;
   private readonly float RATIO_RUN = 1.5f;
   private readonly float SPEED_JUMP = 8.0f;
 
+  private float m_Gravity;
   private float m_LastY;
 
   private void Start()
@@ -23,15 +25,20 @@ public class MyModelInputController : MonoBehaviour
     m_Transform = transform;
     m_ModelAnimationCtrl = GetComponent<MyModelAnimationController>();
     m_CharCtrl = GetComponent<CharacterController>();
-    m_LastY = m_CharCtrl.center.y;
+    m_Gravity = 0.0f;
+    m_LastY = m_Transform.position.y;
   }
 
   private void Update()
   {
-    Vector3 _Direction = new Vector3(0.0f, Physics.gravity.y * Time.deltaTime);
-    m_CharCtrl.Move(_Direction * Time.deltaTime);
+    if(m_Gravity < 0.0f)
+    {
+      m_Gravity = 0.0f;
+    }
+    m_Gravity += Physics.gravity.y * Time.deltaTime;
+    m_CharCtrl.Move(new Vector3(0.0f, m_Gravity) * Time.deltaTime);
 
-    float _Y = m_CharCtrl.center.y;
+    float _Y = m_Transform.position.y;
     if(0.01f < (m_LastY - _Y) && ! m_ModelAnimationCtrl.IsFall())
     {
       // fall
@@ -100,10 +107,14 @@ public class MyModelInputController : MonoBehaviour
         _DoAnime = true;
         float _X = p_Move.x * SPEED_MOVE;
         float _Y = p_Move.y * SPEED_MOVE;
-        if (p_Run)
+        if(p_Run)
         {
-          _X *= RATIO_RUN;
-          _Y *= RATIO_RUN;
+          if(m_ModelAnimationCtrl.IsRunning())
+          {
+            // transition completed
+            _X *= RATIO_RUN;
+            _Y *= RATIO_RUN;
+          }
           _StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_RUN;
         }
 
@@ -124,7 +135,7 @@ public class MyModelInputController : MonoBehaviour
           break;
         default:
           _DoAnime = true;
-          _Direction.y = SPEED_JUMP;
+          m_Gravity = SPEED_JUMP;
           _StateAnime = Constant.ENUM_STATE_ANIME.STATE_ANIME_JUMP;
           break;
       }
@@ -135,5 +146,10 @@ public class MyModelInputController : MonoBehaviour
       m_CharCtrl.Move(_Direction * Time.deltaTime);
       m_ModelAnimationCtrl.Animation(_StateAnime);
     }
+  }
+
+  public bool IsAir()
+  {
+    return m_ModelAnimationCtrl.IsAir();
   }
 }

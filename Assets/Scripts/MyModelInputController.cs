@@ -17,8 +17,12 @@ public class MyModelInputController : MonoBehaviour
   private readonly float RATIO_RUN = 1.5f;
   private readonly float SPEED_JUMP = 8.0f;
 
+  private readonly float DIFF_FALL_Y = 0.01f;
+  private readonly float DIRECTION_SIDE = 45.0f;
+
   private float m_Gravity;
   private float m_LastY;
+  private bool m_HitSide = false;
 
   private void Start()
   {
@@ -39,7 +43,7 @@ public class MyModelInputController : MonoBehaviour
     m_CharCtrl.Move(new Vector3(0.0f, m_Gravity) * Time.deltaTime);
 
     float _Y = m_Transform.position.y;
-    if (0.01f < (m_LastY - _Y) && !m_ModelAnimationCtrl.IsFall())
+    if (DIFF_FALL_Y < (m_LastY - _Y) && !m_ModelAnimationCtrl.IsFall())
     {
       // fall
       m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL);
@@ -87,7 +91,7 @@ public class MyModelInputController : MonoBehaviour
     // move
     if (p_Move != Vector2.zero)
     {
-      if (m_ModelAnimationCtrl.m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND)
+      if (m_ModelAnimationCtrl.m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND || m_HitSide)
       {
         // can not move
       }
@@ -141,5 +145,13 @@ public class MyModelInputController : MonoBehaviour
   public bool IsAir()
   {
     return m_ModelAnimationCtrl.IsAir();
+  }
+
+  private void OnControllerColliderHit(ControllerColliderHit p_Hit)
+  {
+    Vector3 _Up = m_Transform.TransformDirection(Vector3.up);
+    Vector3 _Direction = p_Hit.point - m_Transform.position;
+    float _Angle = Vector3.Angle(_Up, _Direction);
+    m_HitSide = (_Angle < DIRECTION_SIDE);
   }
 }

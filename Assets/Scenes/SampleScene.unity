@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 100198251}
   m_Layer: 0
   m_Name: Step2
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 320725445}
   m_Layer: 0
   m_Name: LandBase
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 566090725}
   m_Layer: 0
   m_Name: Slope35
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 723732505}
   m_Layer: 0
   m_Name: LandExt
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -806,7 +806,7 @@ GameObject:
   - component: {fileID: 860201503}
   m_Layer: 0
   m_Name: Step1
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1234,7 +1234,7 @@ GameObject:
   - component: {fileID: 1962896164}
   m_Layer: 0
   m_Name: Step3
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1327,7 +1327,7 @@ GameObject:
   - component: {fileID: 1981495031}
   m_Layer: 0
   m_Name: Slope20
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

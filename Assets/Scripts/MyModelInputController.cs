@@ -17,10 +17,11 @@ public class MyModelInputController : MonoBehaviour
   private readonly float RATIO_RUN = 1.5f;
   private readonly float SPEED_JUMP = 8.0f;
 
-  private readonly float DIFF_FALL_Y = 0.01f;
+  private readonly float DIFF_FALL_Y = 0.001f;
+  private readonly float DISTANCE_RAY = 0.5f;
   private readonly float DIRECTION_SIDE = 45.0f;
 
-  private float m_Gravity;
+  private float m_Gravity = 0.0f;
   private float m_LastY;
   private bool m_HitSide = false;
 
@@ -29,7 +30,6 @@ public class MyModelInputController : MonoBehaviour
     m_Transform = transform;
     m_ModelAnimationCtrl = GetComponent<MyModelAnimationController>();
     m_CharCtrl = GetComponent<CharacterController>();
-    m_Gravity = 0.0f;
     m_LastY = m_Transform.position.y;
   }
 
@@ -43,18 +43,44 @@ public class MyModelInputController : MonoBehaviour
     m_CharCtrl.Move(new Vector3(0.0f, m_Gravity) * Time.deltaTime);
 
     float _Y = m_Transform.position.y;
-    if (DIFF_FALL_Y < (m_LastY - _Y) && !m_ModelAnimationCtrl.IsFall())
+    if (IsGrounded())
     {
-      // fall
-      m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL);
+      if (m_ModelAnimationCtrl.IsJumping() || m_ModelAnimationCtrl.IsFalling())
+      {
+        // jump, fall to land
+        m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND);
+      }
+    }
+    else
+    {
+      if (DIFF_FALL_Y < (m_LastY - _Y) && m_ModelAnimationCtrl.m_StateAnime != Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL)
+      {
+        // any state to fall
+        m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL);
+      }
     }
     m_LastY = _Y;
+  }
 
-    if (m_ModelAnimationCtrl.IsFall() && m_CharCtrl.isGrounded)
+  private bool IsGrounded()
+  {
+    if (m_CharCtrl.isGrounded)
     {
-      // land
-      m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_LAND);
+      return true;
     }
+
+    Vector3 _Position = m_Transform.position;
+    _Position.y += 0.1f;
+    Ray _Ray = new Ray(_Position, -m_Transform.up);
+    if (Physics.Raycast(_Ray, out RaycastHit _Hit, DISTANCE_RAY))
+    {
+      if (_Hit.collider.tag == Constant.TAG_LAND)
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public void Idle()

@@ -7,6 +7,8 @@ public class MyModelAnimationController : MonoBehaviour
   private readonly short ID_BASE_LAYER = 0;
   private readonly string ANIME_IDLE = "Idle";
   private readonly string ANIME_RUN = "Run";
+  private readonly string ANIME_JUMP = "Jump";
+  private readonly string ANIME_FALL = "Fall";
 
   private readonly string PRM_TO_WALK = "toWalk";
   private readonly string PRM_TO_RUN = "toRun";
@@ -79,6 +81,16 @@ public class MyModelAnimationController : MonoBehaviour
     return m_Animator.GetCurrentAnimatorStateInfo(ID_BASE_LAYER).IsName(ANIME_RUN);
   }
 
+  public bool IsJumping()
+  {
+    return m_Animator.GetCurrentAnimatorStateInfo(ID_BASE_LAYER).IsName(ANIME_JUMP);
+  }
+
+  public bool IsFalling()
+  {
+    return m_Animator.GetCurrentAnimatorStateInfo(ID_BASE_LAYER).IsName(ANIME_FALL);
+  }
+
   public bool IsAir()
   {
     switch (m_StateAnime)
@@ -91,10 +103,5 @@ public class MyModelAnimationController : MonoBehaviour
         break;
     }
     return false;
-  }
-
-  public bool IsFall()
-  {
-    return m_StateAnime == Constant.ENUM_STATE_ANIME.STATE_ANIME_FALL;
   }
 }

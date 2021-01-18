@@ -1,5 +1,7 @@
 ﻿public static class Constant
 {
+  public const string TAG_LAND = "Land";
+
   public enum ENUM_STATE_ANIME
   {
     STATE_ANIME_IDLE,

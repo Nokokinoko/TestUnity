@@ -10,6 +10,7 @@ public class CameraManager : MonoBehaviour
   private readonly float INITIAL_PHI = 30.0f;
   private readonly float MIN_PHI = 10.0f;
   private readonly float MAX_PHI = 60.0f;
+  private readonly float MIN_POSITION_Y = 0.5f;
 
   public Transform m_TransformTarget;
   public float m_Radius = 5.0f;
@@ -38,7 +39,12 @@ public class CameraManager : MonoBehaviour
       m_Radius * Mathf.Sin(m_Phi * Mathf.Deg2Rad),
       m_Radius * Mathf.Cos(m_Phi * Mathf.Deg2Rad) * Mathf.Cos(m_Theta * Mathf.Deg2Rad)
     );
-    m_TransformCamera.position = _Position + m_TransformTarget.position;
+    _Position += m_TransformTarget.position;
+    if (_Position.y < MIN_POSITION_Y)
+    {
+      _Position.y = MIN_POSITION_Y;
+    }
+    m_TransformCamera.position = _Position;
 
     // look at target
     m_TransformCamera.LookAt(m_TransformTarget);
@@ -60,5 +66,15 @@ public class CameraManager : MonoBehaviour
     m_Phi = _Phi;
 
     SetPositionByTrackPlayer();
+  }
+
+  // Player頭上にカメラ移動
+  public void SetPositionOverhead()
+  {
+    Vector3 _Position = m_TransformTarget.position;
+    _Position.y = 3.0f;
+    m_TransformCamera.position = _Position;
+
+    m_TransformCamera.rotation = Quaternion.Euler(90.0f, -180.0f, 0.0f);
   }
 }

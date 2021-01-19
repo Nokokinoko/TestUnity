@@ -1,11 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
 
 [RequireComponent(typeof(InputReceiver))]
 [RequireComponent(typeof(CameraManager))]
 public class SceneConductor : MonoBehaviour
 {
+  private readonly float DROP_Y = -2.0f;
+  private readonly int TIME_DROP = 1500; // 1.5sec
+
+  private bool m_ReserveReset = false;
   private InputReceiver m_InputReceiver;
 
   private MyModelInputController m_ModelInputCtrl;
@@ -33,10 +38,21 @@ public class SceneConductor : MonoBehaviour
       Debug.Log("require MyModelInputController component");
       return;
     }
+
+    this.UpdateAsObservable()
+      .Where(_ => !m_ReserveReset)
+      .Where(_ => _Model.transform.position.y < DROP_Y)
+      .Subscribe(_ => Drop())
+    ;
   }
 
   private void Update()
   {
+    if (m_ReserveReset)
+    {
+      return;
+    }
+
     // for model
     bool _UpdatePosition = false;
     if (m_InputReceiver.HasInputMove() || m_InputReceiver.m_Jump)
@@ -76,5 +92,21 @@ public class SceneConductor : MonoBehaviour
     {
       m_CameraMgr.SetPositionByTrackPlayer();
     }
+  }
+
+  private void Drop()
+  {
+    m_ReserveReset = true;
+
+    m_CameraMgr.SetPositionOverhead();
+
+    Observable
+      .Timer(TimeSpan.FromMilliseconds(TIME_DROP))
+      .Subscribe(_ => {
+        m_ModelInputCtrl.ResetPosition();
+        m_CameraMgr.SetPositionReset();
+        m_ReserveReset = false;
+      })
+    ;
   }
 }

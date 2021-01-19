@@ -83,6 +83,14 @@ public class MyModelInputController : MonoBehaviour
     return false;
   }
 
+  public void ResetPosition()
+  {
+    // 直接更新するために一時的に無効化
+    m_CharCtrl.enabled = false;
+    m_Transform.position = Vector3.zero;
+    m_CharCtrl.enabled = true;
+  }
+
   public void Idle()
   {
     if (!IsAir())

@@ -24,5 +24,8 @@ Not compatible with drops
 Restart after drop  
 Fade IN/OUT when play, drop
 
+### TAG Silhouette
+Show silhouette when hidden in an object
+
 # License
 This software is released under the MIT License, see LICENSE.

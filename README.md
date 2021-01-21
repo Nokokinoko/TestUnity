@@ -7,7 +7,7 @@ Basic Motions FREE Pack
 
 # Detail
 WASD key ... Move character  
-Tab ... Run  
+Shift ... Run  
 Space ... Jump  
 Mouse ... Move camera  
 Mouse right click ... Reset camera
@@ -19,6 +19,10 @@ Basic implementation
 Add step, slope object  
 Get off the slope  
 Not compatible with drops
+
+### TAG Fade
+Restart after drop  
+Fade IN/OUT when play, drop
 
 # License
 This software is released under the MIT License, see LICENSE.

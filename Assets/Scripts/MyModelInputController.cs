@@ -88,6 +88,7 @@ public class MyModelInputController : MonoBehaviour
     // 直接更新するために一時的に無効化
     m_CharCtrl.enabled = false;
     m_Transform.position = Vector3.zero;
+    m_Transform.rotation = Quaternion.identity;
     m_CharCtrl.enabled = true;
   }
 

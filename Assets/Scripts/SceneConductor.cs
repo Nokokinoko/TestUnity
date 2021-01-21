@@ -7,8 +7,9 @@ using UniRx.Triggers;
 [RequireComponent(typeof(CameraManager))]
 public class SceneConductor : MonoBehaviour
 {
+  private readonly string NAME_MODEL = "MyModel";
   private readonly float DROP_Y = -2.0f;
-  private readonly int TIME_DROP = 1500; // 1.5sec
+  private readonly int TIME_DROP = 500; // 0.5sec
 
   private bool m_ReserveReset = false;
   private InputReceiver m_InputReceiver;
@@ -25,10 +26,10 @@ public class SceneConductor : MonoBehaviour
 
     m_TransformCamera = Camera.main.transform;
 
-    GameObject _Model = GameObject.Find("MyModel");
+    GameObject _Model = GameObject.Find(NAME_MODEL);
     if (_Model == null)
     {
-      Debug.Log("require MyModel gameobject");
+      Debug.Log("require "+NAME_MODEL+" gameobject");
       return;
     }
 
@@ -38,6 +39,14 @@ public class SceneConductor : MonoBehaviour
       Debug.Log("require MyModelInputController component");
       return;
     }
+
+    m_CameraMgr.RxCompletedFadeIn.Subscribe(_ => {
+      m_ModelInputCtrl.ResetPosition();
+      m_CameraMgr.SetPositionReset();
+      m_ReserveReset = false;
+
+      m_CameraMgr.FadeOut();
+    }).AddTo(gameObject);
 
     this.UpdateAsObservable()
       .Where(_ => !m_ReserveReset)
@@ -103,9 +112,7 @@ public class SceneConductor : MonoBehaviour
     Observable
       .Timer(TimeSpan.FromMilliseconds(TIME_DROP))
       .Subscribe(_ => {
-        m_ModelInputCtrl.ResetPosition();
-        m_CameraMgr.SetPositionReset();
-        m_ReserveReset = false;
+        m_CameraMgr.FadeIn(); // 完了時にRxCompletedFadeInを発火
       })
     ;
   }

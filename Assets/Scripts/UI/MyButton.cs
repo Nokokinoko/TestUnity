@@ -6,26 +6,28 @@ using UniRx;
 [RequireComponent(typeof(Button))]
 public class MyButton : MonoBehaviour
 {
-  private Button m_Button;
-
-  private Subject<Unit> m_RxOnClick = new Subject<Unit>();
-  public IObservable<Unit> RxOnClick { get { return m_RxOnClick.AsObservable(); } }
-
-  private void Start()
+  private Button m_Button = null;
+  private Button acs_Button
   {
-    m_Button = GetComponent<Button>();
-    m_Button.onClick.AddListener(() => {
-      m_RxOnClick.OnNext(Unit.Default);
-    });
+    get
+    {
+      if (m_Button == null)
+      {
+        m_Button = GetComponent<Button>();
+      }
+      return m_Button;
+    }
   }
+
+  public IObservable<Unit> RxOnClick { get { return acs_Button.OnClickAsObservable(); } }
 
   public void Active()
   {
-    m_Button.gameObject.SetActive(true);
+    acs_Button.gameObject.SetActive(true);
   }
 
   public void Inactive()
   {
-    m_Button.gameObject.SetActive(false);
+    acs_Button.gameObject.SetActive(false);
   }
 }

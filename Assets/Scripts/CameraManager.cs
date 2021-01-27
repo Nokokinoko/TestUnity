@@ -23,8 +23,8 @@ public class CameraManager : MonoBehaviour
   private bool m_IsFadeIn = false;
   private bool m_IsFadeOut = false;
 
-  private Subject<bool> m_RxCompletedFadeIn = new Subject<bool>();
-  public IObservable<bool> RxCompletedFadeIn { get { return m_RxCompletedFadeIn.AsObservable(); } }
+  private Subject<Unit> m_RxCompletedFadeIn = new Subject<Unit>();
+  public IObservable<Unit> RxCompletedFadeIn { get { return m_RxCompletedFadeIn.AsObservable(); } }
 
   public Transform m_TransformTarget;
   public float m_Radius = 5.0f;
@@ -172,7 +172,7 @@ public class CameraManager : MonoBehaviour
     if (_IsFadeIn)
     {
       // SceneConductorで登録された処理でFadeOutを呼び出すため先にフラグの初期化を済ませておく
-      m_RxCompletedFadeIn.OnNext(true);
+      m_RxCompletedFadeIn.OnNext(Unit.Default);
     }
     else
     {

@@ -12,9 +12,6 @@ public class UISlider : MonoBehaviour
   private readonly int MIN_VALUE = 0;
   private readonly int MAX_VALUE = 100;
 
-  private MySlider m_MySlider;
-  private Text m_Text;
-
   private void Start()
   {
     // slider
@@ -25,8 +22,8 @@ public class UISlider : MonoBehaviour
       return;
     }
 
-    m_MySlider = _ObjSlider.GetComponent<MySlider>();
-    if (m_MySlider == null)
+    MySlider _MySlider = _ObjSlider.GetComponent<MySlider>();
+    if (_MySlider == null)
     {
       Debug.Log("require MySlider component");
       return;
@@ -40,17 +37,17 @@ public class UISlider : MonoBehaviour
       return;
     }
 
-    m_Text = _ObjSlider.GetComponent<Text>();
-    if (m_Text == null)
+    Text _Text = _ObjText.GetComponent<Text>();
+    if (_Text == null)
     {
       Debug.Log("require Text component");
       return;
     }
 
-    m_MySlider.RxOnValueChanged
+    _MySlider.RxOnValueChanged
       .Where(value => MIN_VALUE <= value && value <= MAX_VALUE)
       .Subscribe(value => {
-        m_Text.text = value.ToString();
+        _Text.text = value.ToString();
       })
     ;
   }

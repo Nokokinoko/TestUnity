@@ -1,6 +1,5 @@
 ﻿public static class Constant
 {
-  public const string NAME_CANVAS = "Canvas";
   public const string TAG_LAND = "Land";
 
   public enum ENUM_STATE_ANIME

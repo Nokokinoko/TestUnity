@@ -1,15 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
-using UniRx;
-using UniRx.Triggers;
 
 public class CameraManager : MonoBehaviour
 {
-  private readonly string NAME_FADE = "PanelFade";
-  private readonly Color COLOR_FADE = new Color(0.0f, 0.0f, 0.0f);
-  private readonly float TIME_FADE = 1.0f;
-
   private readonly float INITIAL_THETA = 0.0f;
   private readonly float INITIAL_PHI = 30.0f;
   private readonly float MIN_PHI = 10.0f;
@@ -18,13 +11,6 @@ public class CameraManager : MonoBehaviour
   private readonly float OVERHEAD_POSITION_Y = 3.0f;
 
   private Transform m_TransformCamera;
-  private Image m_Fade;
-  private float m_TimeFade = 0.0f;
-  private bool m_IsFadeIn = false;
-  private bool m_IsFadeOut = false;
-
-  private Subject<Unit> m_RxCompletedFadeIn = new Subject<Unit>();
-  public IObservable<Unit> RxCompletedFadeIn { get { return m_RxCompletedFadeIn.AsObservable(); } }
 
   public Transform m_TransformTarget;
   public float m_Radius = 5.0f;
@@ -36,34 +22,6 @@ public class CameraManager : MonoBehaviour
   {
     m_TransformCamera = Camera.main.transform;
     SetPositionReset();
-
-    GameObject _Canvas = GameObject.Find(Constant.NAME_CANVAS);
-    if (_Canvas == null)
-    {
-      Debug.Log("require "+Constant.NAME_CANVAS+" gameobject");
-      return;
-    }
-
-    Transform _Fade = _Canvas.transform.Find(NAME_FADE);
-    if (_Fade == null)
-    {
-      Debug.Log("require "+NAME_FADE+" gameobject");
-      return;
-    }
-
-    m_Fade = _Fade.GetComponent<Image>();
-    if (m_Fade == null)
-    {
-      Debug.Log("require Image component");
-      return;
-    }
-
-    this.UpdateAsObservable()
-      .Where(_ => m_IsFadeIn || m_IsFadeOut)
-      .Subscribe(_ => UpdateFade())
-    ;
-
-    FadeOut();
   }
 
   public void SetPositionReset()
@@ -118,65 +76,5 @@ public class CameraManager : MonoBehaviour
     m_TransformCamera.position = _Position;
 
     m_TransformCamera.rotation = Quaternion.Euler(90.0f, -180.0f, 0.0f);
-  }
-
-  public void FadeIn()
-  {
-    // 0 -> 1
-    Color _Color = COLOR_FADE;
-    _Color.a = 0.0f;
-    m_Fade.color = _Color;
-    m_Fade.enabled = true;
-
-    m_TimeFade = 0.0f;
-    m_IsFadeIn = true;
-  }
-
-  public void FadeOut()
-  {
-    // 1 -> 0
-    Color _Color = COLOR_FADE;
-    _Color.a = 1.0f;
-    m_Fade.color = _Color;
-    m_Fade.enabled = true;
-
-    m_TimeFade = 0.0f;
-    m_IsFadeOut = true;
-  }
-
-  private void UpdateFade()
-  {
-    bool _IsFinish = false;
-    m_TimeFade += Time.deltaTime;
-    if (TIME_FADE < m_TimeFade)
-    {
-      _IsFinish = true;
-      m_TimeFade = TIME_FADE;
-    }
-
-    float _Per = m_TimeFade / TIME_FADE;
-    Color _Color = COLOR_FADE;
-    _Color.a = m_IsFadeIn ? _Per : 1.0f - _Per;
-    m_Fade.color = _Color;
-
-    if (!_IsFinish)
-    {
-      // updating yet
-      return;
-    }
-
-    bool _IsFadeIn = m_IsFadeIn;
-    m_IsFadeIn = false;
-    m_IsFadeOut = false;
-
-    if (_IsFadeIn)
-    {
-      // SceneConductorで登録された処理でFadeOutを呼び出すため先にフラグの初期化を済ませておく
-      m_RxCompletedFadeIn.OnNext(Unit.Default);
-    }
-    else
-    {
-      m_Fade.enabled = false;
-    }
   }
 }

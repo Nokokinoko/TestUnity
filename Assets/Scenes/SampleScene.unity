@@ -2025,6 +2025,7 @@ GameObject:
   - component: {fileID: 1336760380}
   - component: {fileID: 1336760382}
   - component: {fileID: 1336760381}
+  - component: {fileID: 1336760383}
   m_Layer: 5
   m_Name: PanelMenu
   m_TagString: Untagged
@@ -2091,6 +2092,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1336760379}
   m_CullTransparentMesh: 0
+--- !u!114 &1336760383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336760379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5213641c13c24ea1bfd6de53a2ff543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1389674355
 GameObject:
   m_ObjectHideFlags: 0
@@ -2939,6 +2952,7 @@ GameObject:
   - component: {fileID: 1923864459}
   - component: {fileID: 1923864458}
   - component: {fileID: 1923864461}
+  - component: {fileID: 1923864462}
   m_Layer: 0
   m_Name: SceneController
   m_TagString: Untagged
@@ -3004,6 +3018,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eade1a84d56284adab2097bdbb5dc338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1923864462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923864457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31bd19c19485b40aab64e568627876db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1962896163

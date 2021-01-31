@@ -23,11 +23,11 @@ public class MyButton : MonoBehaviour
 
   public void Active()
   {
-    acs_Button.gameObject.SetActive(true);
+    gameObject.SetActive(true);
   }
 
   public void Inactive()
   {
-    acs_Button.gameObject.SetActive(false);
+    gameObject.SetActive(false);
   }
 }

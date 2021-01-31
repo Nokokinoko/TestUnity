@@ -5,13 +5,14 @@ using UniRx.Triggers;
 
 [RequireComponent(typeof(InputReceiver))]
 [RequireComponent(typeof(CameraManager))]
+[RequireComponent(typeof(CanvasConductor))]
 public class SceneConductor : MonoBehaviour
 {
   private readonly string NAME_MODEL = "MyModel";
   private readonly float DROP_Y = -2.0f;
   private readonly int TIME_DROP = 500; // 0.5sec
 
-  private bool m_ReserveReset = false;
+  private bool m_DisableInput = false;
   private InputReceiver m_InputReceiver;
 
   private MyModelInputController m_ModelInputCtrl;
@@ -19,10 +20,13 @@ public class SceneConductor : MonoBehaviour
   private Transform m_TransformCamera;
   private CameraManager m_CameraMgr;
 
+  private CanvasConductor m_CanvasConductor;
+
   private void Start()
   {
     m_InputReceiver = GetComponent<InputReceiver>();
     m_CameraMgr = GetComponent<CameraManager>();
+    m_CanvasConductor = GetComponent<CanvasConductor>();
 
     m_TransformCamera = Camera.main.transform;
 
@@ -40,16 +44,16 @@ public class SceneConductor : MonoBehaviour
       return;
     }
 
-    m_CameraMgr.RxCompletedFadeIn.Subscribe(_ => {
+    m_CanvasConductor.RxCompletedFadeIn.Subscribe(_ => {
       m_ModelInputCtrl.ResetPosition();
       m_CameraMgr.SetPositionReset();
-      m_ReserveReset = false;
+      m_DisableInput = false;
 
-      m_CameraMgr.FadeOut();
-    }).AddTo(gameObject);
+      m_CanvasConductor.FadeOut();
+    }).AddTo(this);
 
     this.UpdateAsObservable()
-      .Where(_ => !m_ReserveReset)
+      .Where(_ => !m_DisableInput)
       .Where(_ => _Model.transform.position.y < DROP_Y)
       .Subscribe(_ => Drop())
     ;
@@ -57,7 +61,11 @@ public class SceneConductor : MonoBehaviour
 
   private void Update()
   {
-    if (m_ReserveReset)
+    if (m_DisableInput)
+    {
+      return;
+    }
+    if (m_CanvasConductor.IsActiveMenu())
     {
       return;
     }
@@ -105,14 +113,14 @@ public class SceneConductor : MonoBehaviour
 
   private void Drop()
   {
-    m_ReserveReset = true;
+    m_DisableInput = true;
 
     m_CameraMgr.SetPositionOverhead();
 
     Observable
       .Timer(TimeSpan.FromMilliseconds(TIME_DROP))
       .Subscribe(_ => {
-        m_CameraMgr.FadeIn(); // 完了時にRxCompletedFadeInを発火
+        m_CanvasConductor.FadeIn(); // 完了時にRxCompletedFadeInを発火
       })
     ;
   }

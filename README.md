@@ -27,5 +27,10 @@ Fade IN/OUT when play, drop
 ### TAG Silhouette
 Show silhouette when hidden in an object
 
+### TAG Menu UI
+Add menu UI  
+Menu in slider, toggle button  
+The menu closes when close button or outside the panel
+
 # License
 This software is released under the MIT License, see LICENSE.

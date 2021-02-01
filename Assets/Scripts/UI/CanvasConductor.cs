@@ -9,7 +9,7 @@ public class CanvasConductor : MonoBehaviour
   private readonly string NAME_CANVAS = "Canvas";
   private readonly string NAME_PANEL_FADE = "PanelFade";
   private readonly string NAME_BUTTON_MENU = "ButtonMenu";
-  private readonly string NAME_PANEL_MENU = "PanelMenu";
+  public readonly string NAME_PANEL_MENU = "PanelMenu";
 
   private readonly Color COLOR_FADE = new Color(0.0f, 0.0f, 0.0f);
   private readonly float TIME_FADE = 1.0f;
@@ -19,9 +19,10 @@ public class CanvasConductor : MonoBehaviour
   private bool m_IsFadeIn = false;
   private bool m_IsFadeOut = false;
 
-  private Subject<Unit> m_RxCompletedFadeIn = new Subject<Unit>();
+  private readonly Subject<Unit> m_RxCompletedFadeIn = new Subject<Unit>();
   public IObservable<Unit> RxCompletedFadeIn { get { return m_RxCompletedFadeIn.AsObservable(); } }
 
+  private MyButton m_ButtonMenu;
   private PanelMenu m_PanelMenu;
 
   private void Start()
@@ -63,8 +64,8 @@ public class CanvasConductor : MonoBehaviour
       return;
     }
 
-    MyButton _ButtonMenu = _ObjButton.GetComponent<MyButton>();
-    if (_ButtonMenu == null)
+    m_ButtonMenu = _ObjButton.GetComponent<MyButton>();
+    if (m_ButtonMenu == null)
     {
       Debug.Log("require MyButton component");
       return;
@@ -85,18 +86,16 @@ public class CanvasConductor : MonoBehaviour
       return;
     }
 
-    _ButtonMenu.RxOnClick.Subscribe(_ => {
-      _ButtonMenu.Inactive();
+    m_ButtonMenu.RxOnClick.Subscribe(_ => {
+      m_ButtonMenu.Inactive();
       m_PanelMenu.Active();
     }).AddTo(this);
 
     m_PanelMenu.RxClose.Subscribe(_ => {
-      m_PanelMenu.Inactive();
-      _ButtonMenu.Active();
+      InactiveMenu();
     }).AddTo(this);
 
-    m_PanelMenu.Inactive();
-    _ButtonMenu.Active();
+    InactiveMenu();
   }
 
   public void FadeIn()
@@ -157,6 +156,12 @@ public class CanvasConductor : MonoBehaviour
     {
       m_Fade.enabled = false;
     }
+  }
+
+  public void InactiveMenu()
+  {
+    m_PanelMenu.Inactive();
+    m_ButtonMenu.Active();
   }
 
   public bool IsActiveMenu()

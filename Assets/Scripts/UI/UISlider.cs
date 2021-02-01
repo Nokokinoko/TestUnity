@@ -45,7 +45,7 @@ public class UISlider : MonoBehaviour
     }
 
     _MySlider.RxOnValueChanged
-      .Where(value => MIN_VALUE <= value && value <= MAX_VALUE)
+      .Where(value => (MIN_VALUE <= value && value <= MAX_VALUE))
       .Subscribe(value => {
         _Text.text = value.ToString();
       })

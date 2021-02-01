@@ -33,7 +33,7 @@ public class SceneConductor : MonoBehaviour
     GameObject _Model = GameObject.Find(NAME_MODEL);
     if (_Model == null)
     {
-      Debug.Log("require "+NAME_MODEL+" gameobject");
+      Debug.Log("require " + NAME_MODEL + " gameobject");
       return;
     }
 
@@ -43,6 +43,13 @@ public class SceneConductor : MonoBehaviour
       Debug.Log("require MyModelInputController component");
       return;
     }
+
+    m_InputReceiver.RxButtonMouseLeft
+      .Where(_ => m_CanvasConductor.IsActiveMenu())
+      .Where(_ => !m_InputReceiver.IsInGameObjectByName(m_CanvasConductor.NAME_PANEL_MENU))
+      .Subscribe(_ => m_CanvasConductor.InactiveMenu())
+      .AddTo(this)
+    ;
 
     m_CanvasConductor.RxCompletedFadeIn.Subscribe(_ => {
       m_ModelInputCtrl.ResetPosition();

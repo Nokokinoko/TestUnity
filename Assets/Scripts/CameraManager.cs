@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
@@ -55,15 +54,11 @@ public class CameraManager : MonoBehaviour
   {
     // calc theta
     float _Theta = m_Theta + (p_InputXY.x * m_SpeedInput);
-    if (_Theta < 0.0f) { _Theta = 360.0f + _Theta; }
-    if (360.0f < _Theta) { _Theta = _Theta - 360.0f; }
     m_Theta = _Theta;
 
     // calc phi
     float _Phi = m_Phi + (-p_InputXY.y * m_SpeedInput);
-    if (_Phi < MIN_PHI) { _Phi = MIN_PHI; }
-    if (MAX_PHI < _Phi) { _Phi = MAX_PHI; }
-    m_Phi = _Phi;
+    m_Phi = Mathf.Clamp(_Phi, MIN_PHI, MAX_PHI);
 
     SetPositionByTrackPlayer();
   }

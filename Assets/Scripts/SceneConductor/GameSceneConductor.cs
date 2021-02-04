@@ -6,7 +6,7 @@ using UniRx.Triggers;
 [RequireComponent(typeof(InputReceiver))]
 [RequireComponent(typeof(CameraManager))]
 [RequireComponent(typeof(CanvasConductor))]
-public class SceneConductor : MonoBehaviour
+public class GameSceneConductor : MonoBehaviour
 {
   private readonly string NAME_MODEL = "MyModel";
   private readonly float DROP_Y = -2.0f;

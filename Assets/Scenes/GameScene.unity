@@ -2349,6 +2349,7 @@ GameObject:
   - component: {fileID: 1549411470}
   - component: {fileID: 1549411472}
   - component: {fileID: 1549411471}
+  - component: {fileID: 1549411473}
   m_Layer: 5
   m_Name: PanelFade
   m_TagString: Untagged
@@ -2412,6 +2413,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549411469}
   m_CullTransparentMesh: 0
+--- !u!114 &1549411473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549411469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7526335658984beea32d9bc8cbf4000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ColorDefault: {r: 0, g: 0, b: 0, a: 0}
+  m_TimeFade: 1
 --- !u!1 &1555708538
 GameObject:
   m_ObjectHideFlags: 0

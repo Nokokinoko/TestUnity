@@ -51,12 +51,12 @@ public class GameSceneConductor : MonoBehaviour
       .AddTo(this)
     ;
 
-    m_CanvasConductor.RxCompletedFadeIn.Subscribe(_ => {
+    m_CanvasConductor.Fader.RxCompletedFadeIn.Subscribe(_ => {
       m_ModelInputCtrl.ResetPosition();
       m_CameraMgr.SetPositionReset();
       m_DisableInput = false;
 
-      m_CanvasConductor.FadeOut();
+      m_CanvasConductor.Fader.FadeOut();
     }).AddTo(this);
 
     this.UpdateAsObservable()
@@ -127,7 +127,7 @@ public class GameSceneConductor : MonoBehaviour
     Observable
       .Timer(TimeSpan.FromMilliseconds(TIME_DROP))
       .Subscribe(_ => {
-        m_CanvasConductor.FadeIn(); // 完了時にRxCompletedFadeInを発火
+        m_CanvasConductor.Fader.FadeIn(); // 完了時にRxCompletedFadeInを発火
       })
     ;
   }

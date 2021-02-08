@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿// warning CS0162: Unreachable code detected
+#pragma warning disable 162
+using System.Diagnostics;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class TestClass : MonoBehaviour
@@ -20,12 +23,12 @@ public class TestClass : MonoBehaviour
   // using System.Collections
   private void CallCoroutine()
   {
-    StartCoroutine(BeCalled());
+    StartCoroutine(BeCalledCoroutine());
   }
 
-  private IEnumerator BeCalled()
+  private IEnumerator BeCalledCoroutine()
   {
-    UnityEngine.Debug.Log("be called");
+    UnityEngine.Debug.Log("be called coroutine");
     yield return null;
 
     UnityEngine.Debug.Log("next frame");
@@ -35,6 +38,29 @@ public class TestClass : MonoBehaviour
     yield break;
 
     UnityEngine.Debug.Log("finish (do not call)");
+  }
+  #endregion
+
+  #region CALL ASYNC
+  // using System.Threading.Tasks
+  private void CallAsync()
+  {
+    AsyncMethod();
+    AsyncSerial().ContinueWith(_ => AsyncSerial()); // 直列
+  }
+
+  private async void AsyncMethod()
+  {
+    UnityEngine.Debug.Log("async method start");
+    await Task.Delay(1000);
+    UnityEngine.Debug.Log("async method end");
+  }
+
+  private async Task AsyncSerial()
+  {
+    UnityEngine.Debug.Log("async serial start");
+    await Task.Delay(1000);
+    UnityEngine.Debug.Log("async serial end");
   }
   #endregion
 }

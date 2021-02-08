@@ -7,7 +7,7 @@ using UniRx;
 public class MySlider : MonoBehaviour
 {
   private Slider m_Slider = null;
-  private Slider acs_Slider
+  private Slider Slider
   {
     get
     {
@@ -19,5 +19,5 @@ public class MySlider : MonoBehaviour
     }
   }
 
-  public IObservable<float> RxOnValueChanged { get { return acs_Slider.OnValueChangedAsObservable(); } }
+  public IObservable<float> RxOnValueChanged { get { return Slider.OnValueChangedAsObservable(); } }
 }

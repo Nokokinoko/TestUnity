@@ -6,8 +6,10 @@ using UniRx.Triggers;
 [RequireComponent(typeof(InputReceiver))]
 [RequireComponent(typeof(CameraManager))]
 [RequireComponent(typeof(CanvasConductor))]
-public class GameSceneConductor : MonoBehaviour
+public class GameSceneConductor : AbstractSceneConductor
 {
+  public override Constant.ENUM_SCENE IdScene { get { return Constant.ENUM_SCENE.SCENE_GAME; } }
+
   private readonly string NAME_MODEL = "MyModel";
   private readonly float DROP_Y = -2.0f;
   private readonly int TIME_DROP = 500; // 0.5sec
@@ -64,6 +66,8 @@ public class GameSceneConductor : MonoBehaviour
       .Where(_ => _Model.transform.position.y < DROP_Y)
       .Subscribe(_ => Drop())
     ;
+
+    Started();
   }
 
   private void Update()

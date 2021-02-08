@@ -7,7 +7,7 @@ using UniRx;
 public class MyButton : MonoBehaviour
 {
   private Button m_Button = null;
-  private Button acs_Button
+  private Button Button
   {
     get
     {
@@ -19,7 +19,7 @@ public class MyButton : MonoBehaviour
     }
   }
 
-  public IObservable<Unit> RxOnClick { get { return acs_Button.OnClickAsObservable(); } }
+  public IObservable<Unit> RxOnClick { get { return Button.OnClickAsObservable(); } }
 
   public void Active()
   {

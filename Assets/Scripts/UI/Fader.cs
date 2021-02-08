@@ -38,13 +38,18 @@ public class Fader : MonoBehaviour
     ;
   }
 
+  public void ToImageEnabled(bool pEnabled)
+  {
+    ImageFade.enabled = pEnabled;
+  }
+
   public void FadeIn()
   {
     // 0 -> 1
     Color _Color = m_ColorDefault;
     _Color.a = 0.0f;
     ImageFade.color = _Color;
-    ImageFade.enabled = true;
+    ToImageEnabled(true);
 
     m_Time = 0.0f;
     m_IsFadeIn = true;
@@ -56,7 +61,7 @@ public class Fader : MonoBehaviour
     Color _Color = m_ColorDefault;
     _Color.a = 1.0f;
     ImageFade.color = _Color;
-    ImageFade.enabled = true;
+    ToImageEnabled(true);
 
     m_Time = 0.0f;
     m_IsFadeOut = true;
@@ -93,7 +98,7 @@ public class Fader : MonoBehaviour
     }
     else
     {
-      ImageFade.enabled = false;
+      ToImageEnabled(false);
     }
   }
 }

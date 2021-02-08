@@ -1,8 +1,5 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 
 public class CanvasConductor : MonoBehaviour
 {

@@ -7,7 +7,7 @@ public class PanelMenu : MonoBehaviour
   private readonly string NAME_BUTTON_CLOSE = "ButtonClose";
 
   private MyButton m_ButtonClose = null;
-  private MyButton acs_ButtonClose
+  private MyButton ButtonClose
   {
     get
     {
@@ -36,7 +36,7 @@ public class PanelMenu : MonoBehaviour
     }
   }
 
-  public IObservable<Unit> RxClose { get { return acs_ButtonClose.RxOnClick; } }
+  public IObservable<Unit> RxClose { get { return ButtonClose.RxOnClick; } }
 
   public void Active()
   {

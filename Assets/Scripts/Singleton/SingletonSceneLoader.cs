@@ -108,10 +108,11 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
   #endregion
 
   #region LOAD / UNLOAD
-  public void PreloadScene()
+  public void PreloadScene(Constant.ENUM_SCENE pIdScene)
   {
     InitListScene();
 
+    m_ListLoadScene.Add(pIdScene);
     m_ListLoadScene.Add(Constant.ENUM_SCENE.SCENE_BRIDGE);
 
     ProcessScene(false);

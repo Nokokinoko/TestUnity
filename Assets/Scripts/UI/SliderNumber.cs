@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 
-public class UISlider : MonoBehaviour
+public class SliderNumber : MonoBehaviour
 {
   private readonly string NAME_SLIDER = "Slider";
   private readonly string NAME_TEXT = "TextSlider";

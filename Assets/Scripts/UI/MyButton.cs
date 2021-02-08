@@ -6,20 +6,14 @@ using UniRx;
 [RequireComponent(typeof(Button))]
 public class MyButton : MonoBehaviour
 {
-  private Button m_Button = null;
-  private Button Button
-  {
-    get
-    {
-      if (m_Button == null)
-      {
-        m_Button = GetComponent<Button>();
-      }
-      return m_Button;
-    }
-  }
+  private Button m_Button;
 
-  public IObservable<Unit> RxOnClick { get { return Button.OnClickAsObservable(); } }
+  public IObservable<Unit> RxOnClick { get { return m_Button.OnClickAsObservable(); } }
+
+  private void Awake()
+  {
+    m_Button = GetComponent<Button>();
+  }
 
   public void Active()
   {

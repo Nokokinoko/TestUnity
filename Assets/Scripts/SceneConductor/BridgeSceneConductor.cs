@@ -13,14 +13,7 @@ public class BridgeSceneConductor : AbstractSceneConductor
     {
       if (m_Fader == null)
       {
-        GameObject _Canvas = GameObject.Find(Constant.UI_CANVAS);
-        if (_Canvas == null)
-        {
-          Debug.Log("require " + Constant.UI_CANVAS + " gameobject");
-          return null;
-        }
-
-        Transform _Fade = _Canvas.transform.Find(NAME_FADE);
+        Transform _Fade = Canvas.transform.Find(NAME_FADE);
         if (_Fade == null)
         {
           Debug.Log("require " + NAME_FADE + " gameobject");

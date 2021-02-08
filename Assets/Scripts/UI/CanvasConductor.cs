@@ -7,23 +7,7 @@ public class CanvasConductor : MonoBehaviour
   private readonly string NAME_BUTTON_MENU = "ButtonMenu";
   public readonly string NAME_PANEL_MENU = "PanelMenu";
 
-  private GameObject m_Canvas = null;
-  private GameObject Canvas
-  {
-    get
-    {
-      if (m_Canvas == null)
-      {
-        m_Canvas = GameObject.Find(Constant.UI_CANVAS);
-        if (m_Canvas == null)
-        {
-          Debug.Log("require " + Constant.UI_CANVAS + " gameobject");
-          return null;
-        }
-      }
-      return m_Canvas;
-    }
-  }
+  public GameObject Canvas { private get; set; }
 
   private Fader m_Fader = null;
   public Fader Fader

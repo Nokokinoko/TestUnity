@@ -25,11 +25,15 @@ public class MyModelInputController : MonoBehaviour
   private float m_LastY;
   private bool m_HitSide = false;
 
-  private void Start()
+  private void Awake()
   {
     m_Transform = transform;
     m_ModelAnimationCtrl = GetComponent<MyModelAnimationController>();
     m_CharCtrl = GetComponent<CharacterController>();
+  }
+
+  private void Start()
+  {
     m_LastY = m_Transform.position.y;
   }
 

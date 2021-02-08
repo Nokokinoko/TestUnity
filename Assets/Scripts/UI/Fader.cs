@@ -11,17 +11,6 @@ public class Fader : MonoBehaviour
   public float m_TimeFade;
 
   private Image m_ImageFade;
-  private Image ImageFade
-  {
-    get
-    {
-      if(m_ImageFade == null)
-      {
-        m_ImageFade = GetComponent<Image>();
-      }
-      return m_ImageFade;
-    }
-  }
 
   private float m_Time = 0.0f;
   private bool m_IsFadeIn = false;
@@ -29,6 +18,11 @@ public class Fader : MonoBehaviour
 
   private readonly Subject<Unit> m_RxCompletedFadeIn = new Subject<Unit>();
   public IObservable<Unit> RxCompletedFadeIn { get { return m_RxCompletedFadeIn.AsObservable(); } }
+
+  private void Awake()
+  {
+    m_ImageFade = GetComponent<Image>();
+  }
 
   private void Start()
   {
@@ -40,7 +34,7 @@ public class Fader : MonoBehaviour
 
   public void ToImageEnabled(bool pEnabled)
   {
-    ImageFade.enabled = pEnabled;
+    m_ImageFade.enabled = pEnabled;
   }
 
   public void FadeIn()
@@ -48,7 +42,7 @@ public class Fader : MonoBehaviour
     // 0 -> 1
     Color _Color = m_ColorDefault;
     _Color.a = 0.0f;
-    ImageFade.color = _Color;
+    m_ImageFade.color = _Color;
     ToImageEnabled(true);
 
     m_Time = 0.0f;
@@ -60,7 +54,7 @@ public class Fader : MonoBehaviour
     // 1 -> 0
     Color _Color = m_ColorDefault;
     _Color.a = 1.0f;
-    ImageFade.color = _Color;
+    m_ImageFade.color = _Color;
     ToImageEnabled(true);
 
     m_Time = 0.0f;
@@ -80,7 +74,7 @@ public class Fader : MonoBehaviour
     float _Per = m_Time / m_TimeFade;
     Color _Color = m_ColorDefault;
     _Color.a = m_IsFadeIn ? _Per : 1.0f - _Per;
-    ImageFade.color = _Color;
+    m_ImageFade.color = _Color;
 
     if (!_IsFinish)
     {

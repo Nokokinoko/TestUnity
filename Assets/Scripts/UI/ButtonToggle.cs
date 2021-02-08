@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class UIButton : MonoBehaviour
+public class ButtonToggle : MonoBehaviour
 {
   private readonly string NAME_BUTTON = "Button";
   private readonly string NAME_TEXT = "TextButton";

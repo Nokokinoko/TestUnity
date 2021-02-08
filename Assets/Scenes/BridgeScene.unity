@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 999630586}
   - component: {fileID: 999630585}
-  - component: {fileID: 999630584}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -139,14 +138,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &999630584
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999630583}
-  m_Enabled: 1
 --- !u!20 &999630585
 Camera:
   m_ObjectHideFlags: 0
@@ -374,9 +365,10 @@ GameObject:
   - component: {fileID: 1621151962}
   - component: {fileID: 1621151961}
   - component: {fileID: 1621151960}
+  - component: {fileID: 1621151964}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -461,6 +453,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1621151964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621151959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28656442b303345739399bde2decd156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AttachIdScene: 0
 --- !u!1 &1730700049
 GameObject:
   m_ObjectHideFlags: 0

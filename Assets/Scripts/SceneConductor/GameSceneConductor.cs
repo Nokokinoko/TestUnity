@@ -24,12 +24,16 @@ public class GameSceneConductor : AbstractSceneConductor
 
   private CanvasConductor m_CanvasConductor;
 
-  private void Start()
+  private void Awake()
   {
     m_InputReceiver = GetComponent<InputReceiver>();
     m_CameraMgr = GetComponent<CameraManager>();
     m_CanvasConductor = GetComponent<CanvasConductor>();
+    m_CanvasConductor.Canvas = Canvas;
+  }
 
+  private void Start()
+  {
     m_TransformCamera = Camera.main.transform;
 
     GameObject _Model = GameObject.Find(NAME_MODEL);

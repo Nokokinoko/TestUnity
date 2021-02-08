@@ -1,7 +1,7 @@
 ﻿public static class Constant
 {
-  public const string UI_CANVAS = "Canvas";
   public const string TAG_LAND = "Land";
+  public const string TAG_CANVAS = "Canvas";
 
   public enum ENUM_SCENE
   {

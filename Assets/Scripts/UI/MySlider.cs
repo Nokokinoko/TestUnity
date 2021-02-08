@@ -6,18 +6,12 @@ using UniRx;
 [RequireComponent(typeof(Slider))]
 public class MySlider : MonoBehaviour
 {
-  private Slider m_Slider = null;
-  private Slider Slider
-  {
-    get
-    {
-      if (m_Slider == null)
-      {
-        m_Slider = GetComponent<Slider>();
-      }
-      return m_Slider;
-    }
-  }
+  private Slider m_Slider;
 
-  public IObservable<float> RxOnValueChanged { get { return Slider.OnValueChangedAsObservable(); } }
+  public IObservable<float> RxOnValueChanged { get { return m_Slider.OnValueChangedAsObservable(); } }
+
+  private void Awake()
+  {
+    m_Slider = GetComponent<Slider>();
+  }
 }

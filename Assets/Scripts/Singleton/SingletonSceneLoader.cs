@@ -12,6 +12,7 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
   private Constant.ENUM_SCENE m_IdSceneActive;
   public Constant.ENUM_SCENE IdSceneActive { set { m_IdSceneActive = value; } }
 
+  private bool m_IsPreloaded = false;
   private List<AsyncOperation> m_ListAsyncOperation = new List<AsyncOperation>();
   private List<Constant.ENUM_SCENE> m_ListLoadScene = new List<Constant.ENUM_SCENE>();
 
@@ -110,12 +111,17 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
   #region LOAD / UNLOAD
   public void PreloadScene(Constant.ENUM_SCENE pIdScene)
   {
+    if (m_IsPreloaded)
+    {
+      return;
+    }
     InitListScene();
 
     m_ListLoadScene.Add(pIdScene);
     m_ListLoadScene.Add(Constant.ENUM_SCENE.SCENE_BRIDGE);
 
     ProcessScene(false);
+    m_IsPreloaded = true;
   }
 
   private void ProcessScene(bool pFade)

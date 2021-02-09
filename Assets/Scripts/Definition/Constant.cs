@@ -1,6 +1,7 @@
 ﻿public static class Constant
 {
   public const string TAG_LAND = "Land";
+  public const string TAG_MAIN_CAMERA = "MainCamera";
   public const string TAG_CANVAS = "Canvas";
 
   public enum ENUM_SCENE

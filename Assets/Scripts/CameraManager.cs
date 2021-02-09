@@ -9,7 +9,7 @@ public class CameraManager : MonoBehaviour
   private readonly float MIN_POSITION_Y = 0.5f;
   private readonly float OVERHEAD_POSITION_Y = 3.0f;
 
-  private Transform m_TransformCamera;
+  public Transform TransformCamera { private get; set; }
 
   public Transform m_TransformTarget;
   public float m_Radius = 5.0f;
@@ -19,7 +19,6 @@ public class CameraManager : MonoBehaviour
 
   private void Start()
   {
-    m_TransformCamera = Camera.main.transform;
     SetPositionReset();
   }
 
@@ -43,10 +42,10 @@ public class CameraManager : MonoBehaviour
     {
       _Position.y = MIN_POSITION_Y;
     }
-    m_TransformCamera.position = _Position;
+    TransformCamera.position = _Position;
 
     // look at target
-    m_TransformCamera.LookAt(m_TransformTarget);
+    TransformCamera.LookAt(m_TransformTarget);
   }
 
   // Playerを中心とした球体座標上のカメラ移動
@@ -68,8 +67,8 @@ public class CameraManager : MonoBehaviour
   {
     Vector3 _Position = m_TransformTarget.position;
     _Position.y = OVERHEAD_POSITION_Y;
-    m_TransformCamera.position = _Position;
+    TransformCamera.position = _Position;
 
-    m_TransformCamera.rotation = Quaternion.Euler(90.0f, -180.0f, 0.0f);
+    TransformCamera.rotation = Quaternion.Euler(90.0f, -180.0f, 0.0f);
   }
 }

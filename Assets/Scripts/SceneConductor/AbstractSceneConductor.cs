@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEngine.Assertions;
+using UnityEngine;
 
 public abstract class AbstractSceneConductor : MonoBehaviour
 {
@@ -7,8 +8,30 @@ public abstract class AbstractSceneConductor : MonoBehaviour
   private bool m_ImReady = false;
   public bool ImReady { get { return m_ImReady; } }
 
+  private Transform m_TransformCamera = null;
+  protected Transform TransformCamera
+  {
+    get
+    {
+      if (m_TransformCamera == null)
+      {
+        foreach (GameObject _Obj in GameObject.FindGameObjectsWithTag(Constant.TAG_MAIN_CAMERA))
+        {
+          ComponentAttachScene _Attach = _Obj.GetComponent<ComponentAttachScene>();
+          if (_Attach.AttachIdScene == IdScene)
+          {
+            m_TransformCamera = _Obj.transform;
+            break;
+          }
+        }
+        Assert.IsNotNull(m_TransformCamera, "MainCamera is not found");
+      }
+      return m_TransformCamera;
+    }
+  }
+
   private GameObject m_Canvas = null;
-  public GameObject Canvas
+  protected GameObject Canvas
   {
     get
     {
@@ -31,6 +54,9 @@ public abstract class AbstractSceneConductor : MonoBehaviour
   protected void Started()
   {
     m_ImReady = true;
-    SingletonSceneLoader.Instance.PreloadScene(IdScene);
+    if (IdScene != Constant.ENUM_SCENE.SCENE_BRIDGE)
+    {
+      SingletonSceneLoader.Instance.PreloadScene(IdScene);
+    }
   }
 }

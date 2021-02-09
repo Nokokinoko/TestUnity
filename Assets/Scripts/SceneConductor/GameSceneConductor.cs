@@ -19,23 +19,20 @@ public class GameSceneConductor : AbstractSceneConductor
 
   private MyModelInputController m_ModelInputCtrl;
 
-  private Transform m_TransformCamera;
   private CameraManager m_CameraMgr;
-
   private CanvasConductor m_CanvasConductor;
 
   private void Awake()
   {
     m_InputReceiver = GetComponent<InputReceiver>();
     m_CameraMgr = GetComponent<CameraManager>();
+    m_CameraMgr.TransformCamera = TransformCamera;
     m_CanvasConductor = GetComponent<CanvasConductor>();
     m_CanvasConductor.Canvas = Canvas;
   }
 
   private void Start()
   {
-    m_TransformCamera = Camera.main.transform;
-
     GameObject _Model = GameObject.Find(NAME_MODEL);
     if (_Model == null)
     {
@@ -91,9 +88,9 @@ public class GameSceneConductor : AbstractSceneConductor
     {
       if (m_InputReceiver.HasInputMove())
       {
-        m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, m_TransformCamera.forward);
+        m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, TransformCamera.forward);
       }
-      m_ModelInputCtrl.Move(m_InputReceiver.m_Move, m_InputReceiver.m_Run, m_InputReceiver.m_Jump, m_TransformCamera);
+      m_ModelInputCtrl.Move(m_InputReceiver.m_Move, m_InputReceiver.m_Run, m_InputReceiver.m_Jump, TransformCamera);
       _UpdatePosition = true;
     }
 

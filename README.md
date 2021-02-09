@@ -32,5 +32,9 @@ Add menu UI
 Menu in slider, toggle button  
 The menu closes when close button or outside the panel
 
+### TAG Scene Transition
+Transition to another scene from the button in the menu  
+Scheduled to change from coroutine to UniTask
+
 # License
 This software is released under the MIT License, see LICENSE.

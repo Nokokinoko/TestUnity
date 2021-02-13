@@ -1,29 +1,58 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-  private Rigidbody _Rigidbody;
+  private Rigidbody m_Rigidbody;
+
+  private readonly Subject<Unit> m_OnFinishedSubject = new Subject<Unit>();
+  public IObservable<Unit> OnFinishedSubject { get { return m_OnFinishedSubject.AsObservable(); } }
 
   private void Start()
   {
-    _Rigidbody = GetComponent<Rigidbody>();
+    m_Rigidbody = GetComponent<Rigidbody>();
 
-    // 衝突したら削除
+    // 衝突
     this.OnTriggerEnterAsObservable()
-      .Subscribe(_ => Destroy(gameObject))
+      .Subscribe(_ => OnHit())
     ;
-    // 3秒経過したら削除
-    Destroy(gameObject, 3.0f);
   }
 
-  public void AddVelocity(Vector3 pVelocity)
+  public void Initialize(Vector3 pPosition, Vector3 pVelocity)
   {
-    Observable.NextFrame(FrameCountType.FixedUpdate)
-      .Subscribe(_ => _Rigidbody.AddForce(pVelocity, ForceMode.VelocityChange))
+    transform.position = pPosition;
+
+    Observable
+      .NextFrame(FrameCountType.FixedUpdate)
+      .TakeUntilDisable(this)
+      .Subscribe(_ => m_Rigidbody.AddForce(pVelocity, ForceMode.VelocityChange))
       .AddTo(this)
     ;
+
+    Observable
+      .Timer(TimeSpan.FromSeconds(3))
+      .TakeUntilDisable(this)
+      .TakeUntilDestroy(this)
+      .Subscribe(_ => Finish())
+    ;
+  }
+
+  private void OnHit()
+  {
+    Finish();
+  }
+
+  private void Finish()
+  {
+    m_Rigidbody.velocity = Vector3.zero;
+    m_OnFinishedSubject.OnNext(Unit.Default);
+  }
+
+  private void OnDestroy()
+  {
+    m_OnFinishedSubject.Dispose();
   }
 }

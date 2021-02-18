@@ -38,6 +38,7 @@ Scheduled to change from coroutine to UniTask
 
 ### TAG Object Pool
 Enemy objects fire bullets  
+Can be moved in both directions with GameScene and ObjectPoolScene  
 But get an error when move from ObjectPoolScene, go back and then move again
 
 # License

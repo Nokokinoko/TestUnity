@@ -36,5 +36,9 @@ The menu closes when close button or outside the panel
 Transition to another scene from the button in the menu  
 Scheduled to change from coroutine to UniTask
 
+### TAG Object Pool
+Enemy objects fire bullets  
+But get an error when move from ObjectPoolScene, go back and then move again
+
 # License
 This software is released under the MIT License, see LICENSE.

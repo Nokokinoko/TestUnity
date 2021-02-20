@@ -3,7 +3,8 @@ Unity 2019.4.17f1
 
 ### Use Assets
 UniRX  
-Basic Motions FREE Pack
+Basic Motions FREE Pack  
+UniTask 2.1.2
 
 # Detail
 WASD key ... Move character  

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
 {
@@ -126,7 +126,7 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
 
   private void ProcessScene(bool pFade)
   {
-    Action _Action = () =>
+    Func<UniTask> _Action = async () =>
     {
       AsyncOperation _Async = null;
       for (int _Idx = 0; _Idx < SceneManager.sceneCount; _Idx++)
@@ -155,7 +155,12 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
       }
       // m_ListLoadSceneには実際にLoadSceneAsyncを実行した要素のみ保持
 
-      StartCoroutine(CoroutineLoad(pFade));
+      await TaskLoadAndWaitReady(pFade);
+
+      if (pFade)
+      {
+        BridgeSceneConductor.Fader.FadeOut();
+      }
     };
 
     if (pFade)
@@ -172,13 +177,13 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
     }
   }
 
-  private IEnumerator CoroutineLoad(bool pFade)
+  private async UniTask TaskLoadAndWaitReady(bool pFade)
   {
     foreach (AsyncOperation _Async in m_ListAsyncOperation)
     {
       while (!_Async.isDone)
       {
-        yield return null;
+        await UniTask.Yield();
       }
     }
     // all async operation is done
@@ -189,7 +194,7 @@ public class SingletonSceneLoader : SingletonMonoBehaviour<SingletonSceneLoader>
       AbstractSceneConductor _Conductor = GetSceneConductor(_Scene);
       while (!_Conductor.ImReady)
       {
-        yield return null;
+        await UniTask.Yield();
       }
     }
     // all scene conductor is ready

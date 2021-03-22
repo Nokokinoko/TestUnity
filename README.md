@@ -42,5 +42,8 @@ Enemy objects fire bullets
 Can be moved in both directions with GameScene and ObjectPoolScene  
 But get an error when move from ObjectPoolScene, go back and then move again
 
+### TAG UniTask
+Update coroutine to UniTask
+
 # License
 This software is released under the MIT License, see LICENSE.

@@ -17,7 +17,7 @@ public class GameSceneConductor : AbstractSceneConductor
   private bool m_DisableInput = false;
   private InputReceiver m_InputReceiver;
 
-  private MyModelInputController m_ModelInputCtrl;
+  private Model3DInputController m_ModelInputCtrl;
 
   private CameraManager m_CameraMgr;
   private CanvasConductor m_CanvasConductor;
@@ -40,10 +40,10 @@ public class GameSceneConductor : AbstractSceneConductor
       return;
     }
 
-    m_ModelInputCtrl = _Model.GetComponent<MyModelInputController>();
+    m_ModelInputCtrl = _Model.GetComponent<Model3DInputController>();
     if (m_ModelInputCtrl == null)
     {
-      Debug.Log("require MyModelInputController component");
+      Debug.Log("require Model3DInputController component");
       return;
     }
 

@@ -9,6 +9,7 @@
     SCENE_BRIDGE,
     SCENE_GAME,
     SCENE_OBJECT_POOL,
+    SCENE_ENCOUNT,
   }
 
   public enum ENUM_STATE_ANIME

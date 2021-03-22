@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Transform))]
 [RequireComponent(typeof(MyModelAnimationController))]
 [RequireComponent(typeof(CharacterController))]
-public class MyModelInputController : MonoBehaviour
+public class Model3DInputController : MonoBehaviour
 {
   private Transform m_Transform;
   private MyModelAnimationController m_ModelAnimationCtrl;

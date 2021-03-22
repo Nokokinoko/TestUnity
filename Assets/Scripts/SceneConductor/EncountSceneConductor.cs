@@ -8,10 +8,17 @@ public class EncountSceneConductor : AbstractSceneConductor
 
     private readonly string NAME_MODEL = "MyModel";
 
+    public enum ENUM_DIMENSION
+    {
+        DIMENSION_2,
+        DIMENSION_3,
+    };
+    public ENUM_DIMENSION m_Dimension;
+
     private bool m_DisableInput = false;
     private InputReceiver m_InputReceiver;
 
-    private Model3DInputController m_ModelInputCtrl;
+    private AbstractModelInputController m_ModelInputCtrl;
 
     private CameraManager m_CameraMgr;
 
@@ -31,10 +38,13 @@ public class EncountSceneConductor : AbstractSceneConductor
             return;
         }
 
-        m_ModelInputCtrl = _Model.GetComponent<Model3DInputController>();
+        m_ModelInputCtrl = (m_Dimension == ENUM_DIMENSION.DIMENSION_2)
+            ? _Model.GetComponent<Model3DInputController>()
+            : _Model.GetComponent<Model2DInputController>()
+        ;
         if (m_ModelInputCtrl == null)
         {
-            Debug.Log("require Model3DInputController component");
+            Debug.Log("require AbstractModelInputController component");
             return;
         }
 
@@ -52,7 +62,7 @@ public class EncountSceneConductor : AbstractSceneConductor
         if (m_InputReceiver.HasInputMove())
         {
             m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, TransformCamera.forward);
-            m_ModelInputCtrl.Move(m_InputReceiver.m_Move, false, false, TransformCamera);
+            m_ModelInputCtrl.Move(m_InputReceiver.m_Move, TransformCamera);
             m_CameraMgr.SetPositionByTrackPlayer();
         }
         else

@@ -66,6 +66,7 @@ public class GameSceneConductor : AbstractSceneConductor
       .Where(_ => !m_DisableInput)
       .Where(_ => _Model.transform.position.y < DROP_Y)
       .Subscribe(_ => Drop())
+      .AddTo(this)
     ;
 
     Started();

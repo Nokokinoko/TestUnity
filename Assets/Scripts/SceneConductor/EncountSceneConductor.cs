@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UniRx;
 
 [RequireComponent(typeof(InputReceiver))]
 [RequireComponent(typeof(CameraManager))]
@@ -38,10 +39,19 @@ public class EncountSceneConductor : AbstractSceneConductor
             return;
         }
 
-        m_ModelInputCtrl = (m_Dimension == ENUM_DIMENSION.DIMENSION_2)
-            ? _Model.GetComponent<Model3DInputController>()
-            : _Model.GetComponent<Model2DInputController>()
-        ;
+        if (Is2D())
+        {
+            // 2D
+            m_ModelInputCtrl = _Model.GetComponent<Model2DInputController>();
+            _Model.GetComponent<Model3DInputController>().enabled = false;
+            ((Model2DInputController)m_ModelInputCtrl).OffCharaCtrl();
+        }
+        else
+        {
+            // 3D
+            m_ModelInputCtrl = _Model.GetComponent<Model3DInputController>();
+            _Model.GetComponent<Model2DInputController>().enabled = false;
+        }
         if (m_ModelInputCtrl == null)
         {
             Debug.Log("require AbstractModelInputController component");
@@ -53,6 +63,10 @@ public class EncountSceneConductor : AbstractSceneConductor
 
     private void Update()
     {
+        if (Is2D() && ((Model2DInputController)m_ModelInputCtrl).IsMoving())
+        {
+            m_CameraMgr.SetPositionByTrackPlayer();
+        }
         if (m_DisableInput)
         {
             return;
@@ -61,13 +75,27 @@ public class EncountSceneConductor : AbstractSceneConductor
         // for model
         if (m_InputReceiver.HasInputMove())
         {
+            if (Is2D())
+            {
+                m_DisableInput = true;
+                ((Model2DInputController)m_ModelInputCtrl).RxMoved.Subscribe(_ => { m_DisableInput = false; }).AddTo(this);
+            }
+            // カメラ向き固定だが他シーンでカメラ移動を考慮しているため流用
             m_ModelInputCtrl.Rotate(m_InputReceiver.m_Move, TransformCamera.forward);
             m_ModelInputCtrl.Move(m_InputReceiver.m_Move, TransformCamera);
-            m_CameraMgr.SetPositionByTrackPlayer();
+            if (!Is2D())
+            {
+                m_CameraMgr.SetPositionByTrackPlayer();
+            }
         }
         else
         {
             m_ModelInputCtrl.Idle();
         }
+    }
+
+    private bool Is2D()
+    {
+        return (m_Dimension == ENUM_DIMENSION.DIMENSION_2);
     }
 }

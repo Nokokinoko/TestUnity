@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UniRx;
 
 [RequireComponent(typeof(InputReceiver))]
@@ -8,6 +9,7 @@ public class EncountSceneConductor : AbstractSceneConductor
     public override Constant.ENUM_SCENE IdScene { get { return Constant.ENUM_SCENE.SCENE_ENCOUNT; } }
 
     private readonly string NAME_MODEL = "MyModel";
+    private readonly string NAME_BUTTON_ENCOUNT = "ButtonEncount";
 
     public enum ENUM_DIMENSION
     {
@@ -17,11 +19,12 @@ public class EncountSceneConductor : AbstractSceneConductor
     public ENUM_DIMENSION m_Dimension;
 
     private bool m_DisableInput = false;
+    private bool m_IsEncount = false;
     private InputReceiver m_InputReceiver;
+    private CameraManager m_CameraMgr;
 
     private AbstractModelInputController m_ModelInputCtrl;
-
-    private CameraManager m_CameraMgr;
+    private MyButton m_ButtonEncount;
 
     private void Awake()
     {
@@ -32,6 +35,7 @@ public class EncountSceneConductor : AbstractSceneConductor
 
     private void Start()
     {
+        // Model
         GameObject _Model = GameObject.Find(NAME_MODEL);
         if (_Model == null)
         {
@@ -58,6 +62,23 @@ public class EncountSceneConductor : AbstractSceneConductor
             return;
         }
 
+        // Button
+        Transform _ObjButton = Canvas.transform.Find(NAME_BUTTON_ENCOUNT);
+        if (_ObjButton == null)
+        {
+            Debug.Log("require " + NAME_BUTTON_ENCOUNT + " gameobject");
+            return;
+        }
+
+        m_ButtonEncount = _ObjButton.GetComponent<MyButton>();
+        if (m_ButtonEncount == null)
+        {
+            Debug.Log("require MyButton component (" + NAME_BUTTON_ENCOUNT + ")");
+            return;
+        }
+
+        m_ButtonEncount.Inactive();
+
         Started();
     }
 
@@ -67,7 +88,7 @@ public class EncountSceneConductor : AbstractSceneConductor
         {
             m_CameraMgr.SetPositionByTrackPlayer();
         }
-        if (m_DisableInput)
+        if (m_DisableInput || m_IsEncount)
         {
             return;
         }
@@ -97,5 +118,41 @@ public class EncountSceneConductor : AbstractSceneConductor
     private bool Is2D()
     {
         return (m_Dimension == ENUM_DIMENSION.DIMENSION_2);
+    }
+
+    public void Encount()
+    {
+        m_IsEncount = true;
+        m_ModelInputCtrl.Stop();
+        Observable.Interval(TimeSpan.FromMilliseconds(200))
+            .TakeUntil(Observable.Timer(TimeSpan.FromSeconds(1)))
+            .Subscribe(
+                _ =>
+                {
+                    // 簡易的に点滅
+                    if (m_ButtonEncount.isActiveAndEnabled)
+                    {
+                        m_ButtonEncount.Inactive();
+                    }
+                    else
+                    {
+                        m_ButtonEncount.Active();
+                    }
+                },
+                () =>
+                {
+                    m_ButtonEncount.Active();
+                    m_ButtonEncount.RxOnClick
+                        .Subscribe(_ => {
+                            m_IsEncount = false;
+                            m_ButtonEncount.Inactive();
+                            m_ModelInputCtrl.Resume();
+                        })
+                        .AddTo(this)
+                    ;
+                }
+            )
+            .AddTo(this)
+        ;
     }
 }

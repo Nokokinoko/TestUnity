@@ -30,4 +30,14 @@ abstract public class AbstractModelInputController : MonoBehaviour
             m_ModelAnimationCtrl.Animation(Constant.ENUM_STATE_ANIME.STATE_ANIME_IDLE);
         }
     }
+
+    public void Stop()
+    {
+        m_ModelAnimationCtrl.Stop();
+    }
+
+    public void Resume()
+    {
+        m_ModelAnimationCtrl.Resume();
+    }
 }

@@ -45,5 +45,10 @@ But get an error when move from ObjectPoolScene, go back and then move again
 ### TAG UniTask
 Update coroutine to UniTask
 
+### TAG Encount
+Add EncountScene  
+Switch 2D/3D (only WASD key) by EncountSceneConductor  
+You can set the encounter rate with Land component
+
 # License
 This software is released under the MIT License, see LICENSE.

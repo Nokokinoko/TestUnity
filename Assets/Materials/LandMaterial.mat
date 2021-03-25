@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LandMaterial
-  m_Shader: {fileID: 4800000, guid: 665cec4ec446544b8b1f406d1592b250, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: cd0d25ec753ce41569749789382c840f,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -55,6 +56,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4265BBC3_Texture_1:
+        m_Texture: {fileID: 2800000, guid: beb5a5976f50342029b50ac0444ebe99, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_92D07FAE_Texture_1:
+        m_Texture: {fileID: 2800000, guid: beb5a5976f50342029b50ac0444ebe99, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -74,5 +83,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - Vector2_79CE5F30: {r: 1, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

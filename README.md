@@ -5,7 +5,7 @@ Unity 2019.4.17f1
 UniRX  
 Basic Motions FREE Pack  
 UniTask 2.1.2  
-UniversalRP 7.3.1
+UniversalRP 7.5.3
 
 # Detail
 WASD key ... Move character  

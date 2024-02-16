@@ -5,7 +5,8 @@ Unity 2021.3.28f1
 UniRX  
 Basic Motions FREE Pack  
 UniTask 2.1.2  
-UniversalRP 7.5.3
+UniversalRP 7.5.3  
+Extenject 9.2.0
 
 # Detail
 WASD key ... Move character  
@@ -50,6 +51,9 @@ Update coroutine to UniTask
 Add EncountScene  
 Switch 2D/3D (only WASD key) by EncountSceneConductor  
 You can set the encounter rate with Land component
+
+### TAG Extenject
+Add ExtenjectScene
 
 # License
 This software is released under the MIT License, see LICENSE.

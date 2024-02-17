@@ -5,6 +5,9 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
+
+# Generate file
+ServerData/
 *.mp4
 
 # Editor

@@ -6,7 +6,8 @@ UniRX
 Basic Motions FREE Pack  
 UniTask 2.1.2  
 UniversalRP 7.5.3  
-Extenject 9.2.0
+Extenject 9.2.0  
+Addressables 1.19.19
 
 # Detail
 WASD key ... Move character  
@@ -54,6 +55,9 @@ You can set the encounter rate with Land component
 
 ### TAG Extenject
 Add ExtenjectScene
+
+### TAG Addressables
+Add AddressablesScene
 
 # License
 This software is released under the MIT License, see LICENSE.

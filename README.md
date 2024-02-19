@@ -59,5 +59,8 @@ Add ExtenjectScene
 ### TAG Addressables
 Add AddressablesScene
 
+### TAG Skippable
+Add SkipScene
+
 # License
 This software is released under the MIT License, see LICENSE.
